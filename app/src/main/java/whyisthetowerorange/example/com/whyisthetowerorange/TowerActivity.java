@@ -1,13 +1,13 @@
 package whyisthetowerorange.example.com.whyisthetowerorange;
 
+import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,13 +17,9 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.text.format.DateFormat;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.BufferedReader;
@@ -48,10 +44,6 @@ public class TowerActivity extends ActionBarActivity {
         textView = (TextView) findViewById(R.id.towerText);
         layout = (ScrollView) findViewById(R.id.layout);
         readWebpage();
-
-//        ActionBar actionBar = getActionBar();
-//        String dateString = android.text.format.DateFormat.format("dd-MM-yyyy hh:mm:ss", new java.util.Date());
-//        actionBar.setTitle(dateString);
     }
 
 
@@ -103,7 +95,6 @@ public class TowerActivity extends ActionBarActivity {
                 layout.setBackgroundResource(R.drawable.orangeuttower3);
                 textView.setTextColor(Color.WHITE);
                 towerIsOrange=true;
-//                textView.setText("THIS IS A VERY LONG STRING SO I CAN SEE HOW LONG STRINGS WILL LOOK IN THIS TEXT VIEW. I HOPE THIS WORKS OKAY. WHAT IS THE LIMIT OF HOW LONG THIS STRING CAN BE BEFORE IT IS TOO LONG FOR THE APP. PERHAPS I SHOULD CONSIDER CHANGING IT TO SCROLLVIEW??????? BECAUSE IF I HAVE ONE MORE LINE THEN WHAT WILL HAPPEN?? UH OH!!!!");
             }
             textView.setText(Html.fromHtml(result));
         }
@@ -119,19 +110,32 @@ public class TowerActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch(item.getItemId()) {
+            case R.id.date:
+                showDate();
+                return true;
 
-        if (id == R.id.date) {
-            showDate();
-            return true;
+            case R.id.website:
+                openWebsite();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+//        int id = item.getItemId();
+//
+//        if (id == R.id.date) {
+//            showDate();
+//            return true;
+//        }
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
     }
 
     public void showDate() {
@@ -149,5 +153,10 @@ public class TowerActivity extends ActionBarActivity {
             ((TextView)popup.getContentView().findViewById(R.id.datepopup)).setTextColor(Color.WHITE);
 
         popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
+    }
+
+    public void openWebsite() {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://whyisthetowerorange.com"));
+        startActivity(intent);
     }
 }
