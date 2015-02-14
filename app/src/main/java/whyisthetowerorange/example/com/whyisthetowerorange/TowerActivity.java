@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -35,14 +36,18 @@ public class TowerActivity extends ActionBarActivity {
     private TextView textView;
     private ScrollView layout;
     private boolean towerIsOrange;
+    private ProgressBar spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tower_activity);
 
+        spinner = (ProgressBar) findViewById(R.id.progressBar);
         textView = (TextView) findViewById(R.id.towerText);
         layout = (ScrollView) findViewById(R.id.layout);
+
+        spinner.setVisibility(View.GONE);
         readWebpage();
     }
 
@@ -55,6 +60,12 @@ public class TowerActivity extends ActionBarActivity {
     }
 
     private class DownloadWebPageTask extends AsyncTask<String, Void, String> {
+
+        protected void onPreExecute() {
+            super.onPreExecute();
+            spinner.setVisibility(View.VISIBLE);
+        }
+
         @Override
         protected String doInBackground(String... urls) {
             String response = "";
@@ -86,6 +97,8 @@ public class TowerActivity extends ActionBarActivity {
         }
         @Override
         protected void onPostExecute(String result) {
+            spinner.setVisibility(View.GONE);
+
             if (result.equals("It's not. Sad Day.")) {
                 layout.setBackgroundResource(R.drawable.whiteuttower3);
                 textView.setTextColor(Color.BLACK);
