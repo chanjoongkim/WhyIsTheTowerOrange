@@ -86,7 +86,6 @@ public class TowerActivity extends ActionBarActivity {
                                 response += str.charAt(index);
                                 index++;
                             }
-                            response += " Sad Day.";
                         }
                     }
                 } catch (Exception e) {
@@ -99,7 +98,8 @@ public class TowerActivity extends ActionBarActivity {
         protected void onPostExecute(String result) {
             spinner.setVisibility(View.GONE);
 
-            if (result.equals("It's not. Sad Day.")) {
+            if (result.equals("It's not.")) {
+                result += " Sad Day.";
                 layout.setBackgroundResource(R.drawable.whiteuttower3);
                 textView.setTextColor(Color.BLACK);
                 towerIsOrange=false;
